@@ -1,0 +1,204 @@
+---
+description: must be applied to develop pages, components, features
+alwaysApply: false
+---
+Cursor AI Development Rules for Sage/Gutenberg WordPress Theme
+Core Principles
+You are developing a WordPress theme using the Sage framework with Gutenberg blocks. Every component you create must be reusable, importable, and follow WordPress block editor standards.
+Mandatory Rules
+1. Technology Stack Rules
+
+ALWAYS USE Laravel Blade templating syntax (.blade.php files) for all WordPress templates
+ALWAYS USE Tailwind CSS utility classes for styling - never write custom CSS unless absolutely necessary
+ALWAYS USE ACF (Advanced Custom Fields) for custom block data fields
+ALWAYS USE Gutenberg block editor patterns - no page builders or shortcodes
+ALWAYS USE Vite as the build tool for assets
+ALWAYS USE Composer for PHP dependencies and npm/yarn for JavaScript dependencies
+
+2. Block Development Rules
+
+EVERY CUSTOM BLOCK must be registered as a Gutenberg block that can be saved, reused, and imported
+EVERY CUSTOM BLOCK must have an ACF field group associated with it
+EVERY CUSTOM BLOCK must support preview mode in the Gutenberg editor
+EVERY CUSTOM BLOCK must have a unique namespace prefix: acf/sage-{blockname}
+EVERY CUSTOM BLOCK must support block alignment options (wide, full) when appropriate
+EVERY CUSTOM BLOCK must include example/default data for better UX
+NEVER CREATE blocks that only work on specific pages - all blocks must be globally reusable
+
+3. File Structure Rules
+
+PLACE all block Blade templates in resources/views/blocks/
+PLACE all reusable component templates in resources/views/components/
+PLACE all ACF block registrations in app/setup.php or dedicated class files in app/Blocks/
+PLACE all block-specific JavaScript in resources/scripts/blocks/
+PLACE all block patterns JSON exports in block-patterns/ directory
+NAME all block template files as {blockname}.blade.php using kebab-case
+CREATE an accompanying ACF field group for each custom block
+
+4. Blade Template Rules
+
+START EVERY block template with ACF field data extraction using get_field()
+INCLUDE fallback/default values for all ACF fields
+USE @php and @endphp directives for PHP logic blocks
+USE Blade directives (@if, @foreach, @include) instead of PHP alternatives
+IMPLEMENT InnerBlocks support when nested content is needed
+ESCAPE all user-input data appropriately using {!! !!} only for trusted HTML
+WRAP every block in a container div with appropriate block classes
+
+5. Styling Rules
+
+USE ONLY Tailwind CSS utility classes from the core library
+AVOID custom CSS files - use Tailwind's configuration for customization
+IMPLEMENT responsive design using Tailwind's breakpoint prefixes (sm:, md:, lg:, xl:)
+ENSURE dark mode compatibility using Tailwind's dark: prefix where appropriate
+FOLLOW consistent spacing using Tailwind's spacing scale (p-4, m-6, etc.)
+USE Tailwind's color palette consistently throughout all blocks
+NEVER use inline styles - always use utility classes
+
+6. ACF Integration Rules
+
+DEFINE all ACF fields programmatically using acf_add_local_field_group()
+USE appropriate ACF field types (image returns array, link returns array, etc.)
+GROUP related fields logically using ACF tabs or groups
+SET required fields appropriately for critical block content
+INCLUDE help text and instructions for complex fields
+VALIDATE field data before rendering in templates
+EXPORT ACF field configurations as JSON for version control
+
+7. Gutenberg Editor Rules
+
+PROVIDE meaningful block titles and descriptions
+ASSIGN appropriate block categories (create custom categories for theme blocks)
+INCLUDE relevant keywords for block search
+SUPPORT block transforms where logical
+IMPLEMENT block variations for different layouts
+USE InspectorControls for block settings in the sidebar
+RENDER accurate previews that match front-end output
+
+8. Reusability and Import/Export Rules
+
+ENSURE every block can be converted to a reusable block
+CREATE block patterns for common block combinations
+SUPPORT JSON export/import for all custom blocks
+AVOID hardcoded IDs or page-specific references
+USE relative paths for assets, not absolute URLs
+DOCUMENT any required plugins or dependencies
+TEST blocks work correctly after import/export
+
+9. Performance Rules
+
+LAZY LOAD images using native lazy loading attributes
+OPTIMIZE images before use (WebP format preferred)
+MINIMIZE the number of ACF field queries
+USE WordPress transients for expensive operations
+IMPLEMENT critical CSS for above-the-fold content
+AVOID loading unnecessary scripts or styles
+USE conditional loading for block-specific assets
+
+10. Accessibility Rules
+
+INCLUDE proper heading hierarchy (h1, h2, h3, etc.)
+PROVIDE alt text for all images
+USE semantic HTML5 elements (nav, article, section, aside)
+ENSURE sufficient color contrast (WCAG AA minimum)
+IMPLEMENT keyboard navigation support
+ADD ARIA labels where necessary
+TEST with screen readers
+
+11. Code Quality Rules
+
+FOLLOW WordPress coding standards for PHP
+FOLLOW WordPress coding standards for JavaScript
+USE meaningful variable and function names
+COMMENT complex logic or non-obvious code
+VALIDATE all user inputs
+SANITIZE all database queries
+ESCAPE all output
+HANDLE errors gracefully with fallbacks
+
+12. Version Control Rules
+
+COMMIT both source and compiled assets
+INCLUDE composer.lock and package-lock.json files
+EXPORT ACF field groups as JSON in the repository
+DOCUMENT all block changes in a changelog
+TAG releases with semantic versioning
+NEVER commit sensitive data or credentials
+
+Block Creation Checklist
+When creating any new block, verify:
+
+ Block is registered with ACF and Gutenberg
+ Blade template exists in correct location
+ ACF fields are defined and exported
+ Preview mode works in editor
+ Block can be saved as reusable
+ Block supports import/export
+ Responsive design is implemented
+ Accessibility standards are met
+ Documentation is complete
+ No hardcoded content or IDs
+
+Communication Style Rules
+When responding about development tasks:
+
+ALWAYS MENTION that blocks will be Gutenberg-compatible and reusable
+CONFIRM the use of Blade templating and ACF fields
+SPECIFY the file locations following Sage structure
+INDICATE support for block patterns and reusable blocks
+NOTE any additional ACF fields that might enhance functionality
+SUGGEST InnerBlocks implementation where applicable
+RECOMMEND appropriate Tailwind classes for the design
+
+Error Prevention Rules
+
+NEVER create WordPress pages directly in the database without block structure
+NEVER use page-specific templates that can't be reused
+NEVER hardcode content that should be editable
+NEVER skip ACF field definitions in favor of hardcoded values
+NEVER create blocks without preview functionality
+NEVER use jQuery when vanilla JavaScript or Alpine.js will suffice
+NEVER bypass WordPress's built-in functions for custom solutions
+NEVER store block data outside of WordPress's block comment delimiters
+
+Default Assumptions
+Unless specified otherwise, assume:
+
+The site uses the latest version of WordPress
+ACF Pro is installed and activated
+Sage 10.x is the theme framework
+Tailwind CSS 3.x is configured
+Node.js 18+ is available
+PHP 8.0+ is running
+Composer 2.x is installed
+The block should work in both classic and FSE themes
+
+Example Response Format
+When asked to create a new block, respond with:
+"I'll create a reusable Gutenberg block for your Sage theme with the following structure:
+
+Block Name: sage-[blockname]
+Location: Blade template at resources/views/blocks/[blockname].blade.php
+ACF Fields: [List the fields that will be created]
+Features:
+
+Gutenberg editor preview
+Reusable block support
+Import/export capability
+InnerBlocks for nested content (if applicable)
+Responsive Tailwind CSS styling
+
+
+Block Pattern: Can be saved as a pattern for repeated use
+
+This block will be fully compatible with the WordPress block editor and can be imported/exported for use across different sites."
+Priority Order
+When making development decisions, prioritize in this order:
+
+WordPress Core Compatibility - Work with WordPress, not against it
+Reusability - Every component should be reusable
+User Experience - Easy to use in the editor
+Performance - Fast loading and rendering
+Maintainability - Clean, documented code
+Accessibility - Usable by everyone
+SEO - Search engine friendly markup
